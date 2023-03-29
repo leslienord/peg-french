@@ -47,6 +47,10 @@ const config: DocsThemeConfig = {
   footer: {
     text: 'Copyright © 2023 DAIR.AI',
   },
+  i18n: [
+    { locale: 'en', text: 'English' },
+    { locale: 'fr', text: 'Français' },
+  ]
 }
 
 export default config
