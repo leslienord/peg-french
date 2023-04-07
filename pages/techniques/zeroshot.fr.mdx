@@ -1,21 +1,21 @@
 # Zero-Shot Prompting
-LLMs today trained on large amounts of data and tuned to follow instructions, are capable of performing tasks zero-shot. We tried a few zero-shot examples in the previous section. Here is one of the examples we used:
+Les LLMs aujourd'hui entraînés sur de grandes quantités de données et réglés pour suivre des instructions, sont capables d'effectuer des tâches zero-shot. Nous avons essayé quelques exemples de zero-shot dans la section précédente. Voici l'un des exemples que nous avons utilisés :
 
 *Prompt:*
 ```
-Classify the text into neutral, negative or positive. 
+Classez le texte en neutre, négatif ou positif. 
 
-Text: I think the vacation is okay.
-Sentiment:
+Texte : Je pense que les vacances sont bonnes.
+Sentiment :
 ```
 
 *Output:*
 ```
-Neutral
+Neutre
 ```
 
-Note that in the prompt above we didn't provide the model with any examples -- that's the zero-shot capabilities at work. 
+Notez que dans le prompt ci-dessus, nous n'avons pas fourni d'exemples au modèle - c'est la capacité zero-shot qui est à l'œuvre. 
 
-Instruction tuning has shown to improve zero-shot learning [Wei et al. (2022)](https://arxiv.org/pdf/2109.01652.pdf). Instruction tuning is essentially the concept of finetuning models on datasets described via instructions. Furthermore, [RLHF](https://arxiv.org/abs/1706.03741) (reinforcement learning from human feedback) has been adopted to scale instruction tuning wherein the model is aligned to better fit human preferences. This recent development powers models like ChatGPT. We will discuss all these approaches and methods in upcoming sections.
+Il a été démontré que l'instruction de tuning (TODO) améliorait l'apprentissage zero-shot [Wei et al. (2022)](https://arxiv.org/pdf/2109.01652.pdf). L'instruction de tuning (TODO) est essentiellement le concept de finetuning (TODO) des modèles sur des ensembles de données décrits par des instructions. En outre, [RLHF](https://arxiv.org/abs/1706.03741) (reinforcement learning from human feedback) a été adopté pour mettre à l'échelle l'instruction de tuning (TODO), le modèle étant aligné pour mieux s'adapter aux préférences humaines. Ce développement récent alimente des modèles tels que ChatGPT. Nous examinerons toutes ces approches et méthodes dans les sections suivantes.
 
-When zero-shot doesn't work, it's recommended to provide demonstrations or examples in the prompt which leads to few-shot prompting. In the next section, we demonstrate few-shot prompting.
+Lorsque le zero-shot ne fonctionne pas, il est recommandé de fournir des démonstrations ou des exemples dans le prompt, ce qui conduit au few-shot prompting. Dans la section suivante, nous démontrons le few-shot prompting.
