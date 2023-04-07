@@ -1,13 +1,14 @@
 # Self-Consistency
 
-Perhaps one of the more advanced techniques out there for prompt engineering is self-consistency. Proposed by [Wang et al. (2022)](https://arxiv.org/pdf/2203.11171.pdf), self-consistency aims "to replace the naive greedy decoding used in chain-of-thought prompting". The idea is to sample multiple, diverse reasoning paths through few-shot CoT, and use the generations to select the most consistent answer. This helps to boost the performance of CoT prompting on tasks involving arithmetic and commonsense reasoning.
+L'une des techniques les plus avancées en matière de prompt engineering est sans doute la self-consistency (TODO). 
+Proposée by [Wang et al. (2022)](https://arxiv.org/pdf/2203.11171.pdf), la self-consistency vise à "remplacer le décodage naïf et avide utilisé dans le chain-of-thought prompting". L'idée est d'échantillonner des chemins de raisonnement multiples et diversifiés par le biais de few-shot CoT, et d'utiliser les générations pour sélectionner la réponse la plus cohérente. Cela permet d'améliorer les performances de la CoT prompting dans les tâches impliquant des raisonnements arithmétiques et de bon sens.
 
-Let's try the following example for arithmetic reasoning:
+Essayons l'exemple suivant pour le raisonnement arithmétique :
 
 *Prompt:*
 ```
-When I was 6 my sister was half my age. Now
-I’m 70 how old is my sister?
+Quand j'avais 6 ans, ma sœur avait la moitié de mon âge. Aujourd'hui
+j'ai 70 ans, quel âge a ma sœur ?
 ```
 
 *Output:*
@@ -15,63 +16,71 @@ I’m 70 how old is my sister?
 35
 ```
 
-The output is wrong! How may we improve this with self-consistency? Let's try it out. We will use the few-shot exemplars from Wang et al. 2022 (Table 17):
+L'output est erroné ! Comment pouvons-nous l'améliorer grâce à la self-consistency ? Essayons-le. Nous utiliserons les exemples few-shot de Wang et al. 2022 (Tableau 17) :
 
 *Prompt:*
 ```
-Q: There are 15 trees in the grove. Grove workers will plant trees in the grove today. After they are done,
-there will be 21 trees. How many trees did the grove workers plant today?
-A: We start with 15 trees. Later we have 21 trees. The difference must be the number of trees they planted.
-So, they must have planted 21 - 15 = 6 trees. The answer is 6.
+Q : Il y a 15 arbres dans le bosquet. Les ouvriers du bosquet vont planter des arbres dans le bosquet aujourd'hui. 
+Lorsqu'ils auront terminé, il y aura 21 arbres,
+Combien d'arbres les ouvriers ont-ils plantés aujourd'hui ?
+R : Nous commençons avec 15 arbres. Plus tard, il y aura 21 arbres. 
+La différence doit être le nombre d'arbres qu'ils ont plantés.
+Ils ont donc dû planter 21 - 15 = 6 arbres. La réponse est donc 6.
 
-Q: If there are 3 cars in the parking lot and 2 more cars arrive, how many cars are in the parking lot?
-A: There are 3 cars in the parking lot already. 2 more arrive. Now there are 3 + 2 = 5 cars. The answer is 5.
+Q : S'il y a 3 voitures dans le parking et que 2 voitures supplémentaires arrivent, combien y a-t-il de voitures dans le parking ?
+R : Il y a déjà 3 voitures dans le parking. 2 autres arrivent. Il y a maintenant 3 + 2 = 5 voitures. La réponse est 5.
 
-Q: Leah had 32 chocolates and her sister had 42. If they ate 35, how many pieces do they have left in total?
-A: Leah had 32 chocolates and Leah’s sister had 42. That means there were originally 32 + 42 = 74
-chocolates. 35 have been eaten. So in total they still have 74 - 35 = 39 chocolates. The answer is 39.
+Q : Leah avait 32 chocolats et sa soeur en avait 42. Si elles en ont mangé 35, combien leur reste-t-il de chocolats au total ?
+R : Leah avait 32 chocolats et sa soeur en avait 42. Cela signifie qu'il y avait à l'origine 32 + 42 = 74 chocolats. 
+35 ont été mangés. Au total, il leur reste donc 74 - 35 = 39 chocolats. La réponse est 39.
 
-Q: Jason had 20 lollipops. He gave Denny some lollipops. Now Jason has 12 lollipops. How many lollipops
-did Jason give to Denny?
-A: Jason had 20 lollipops. Since he only has 12 now, he must have given the rest to Denny. The number of
-lollipops he has given to Denny must have been 20 - 12 = 8 lollipops. The answer is 8.
+Q : Jason avait 20 sucettes. Il a donné quelques sucettes à Denny. Maintenant, Jason a 12 sucettes. 
+Combien de sucettes Jason a-t-il donné des sucettes à Denny ?
+R : Jason avait 20 sucettes. Comme il n'en a plus que 12, il a dû donner le reste à Denny.
+Le nombre de sucettes qu'il a données à Denny doit être 20 - 12 = 8 sucettes. La réponse est 8.
 
-Q: Shawn has five toys. For Christmas, he got two toys each from his mom and dad. How many toys does
-he have now?
-A: He has 5 toys. He got 2 from mom, so after that he has 5 + 2 = 7 toys. Then he got 2 more from dad, so
-in total he has 7 + 2 = 9 toys. The answer is 9.
+Q : Shawn a cinq jouets. Pour Noël, il a reçu deux jouets chacun de sa mère et de son père. 
+Combien de jouets a-t-il maintenant ?
+R : Il a 5 jouets. Il a reçu 2 jouets de sa mère, ce qui fait qu'il a 5 + 2 = 7 jouets. 
+Ensuite, il a reçu 2 autres jouets de son père, donc au total, il a 7 + 2 = 9 jouets. 
+La réponse est donc 9.
 
-Q: There were nine computers in the server room. Five more computers were installed each day, from
-monday to thursday. How many computers are now in the server room?
-A: There are 4 days from monday to thursday. 5 computers were added each day. That means in total 4 * 5 =
-20 computers were added. There were 9 computers in the beginning, so now there are 9 + 20 = 29 computers.
-The answer is 29.
+Q : Il y avait neuf ordinateurs dans la salle des serveurs. 
+Cinq ordinateurs supplémentaires ont été installés chaque jour, du lundi au jeudi.
+Combien y a-t-il d'ordinateurs dans la salle des serveurs ?
+R : Il y a 4 jours de lundi à jeudi. 5 ordinateurs ont été ajoutés chaque jour. 
+Cela signifie qu'au total 4 * 5 = 20 ordinateurs ont été ajoutés. 
+Il y avait 9 ordinateurs au départ, il y a donc maintenant 9 + 20 = 29 ordinateurs.
+La réponse est 29.
 
-Q: Michael had 58 golf balls. On tuesday, he lost 23 golf balls. On wednesday, he lost 2 more. How many
-golf balls did he have at the end of wednesday?
-A: Michael initially had 58 balls. He lost 23 on Tuesday, so after that he has 58 - 23 = 35 balls. On
-Wednesday he lost 2 more so now he has 35 - 2 = 33 balls. The answer is 33.
+Q : Michael avait 58 balles de golf. Le mardi, il a perdu 23 balles de golf. Mercredi, il en a perdu 2 de plus.
+Combien de balles de golf avait-il à la fin de la journée de mercredi ?
+R : Michael avait initialement 58 balles. Il a perdu 23 balles le mardi, donc après cela il a 58 - 23 = 35 balles.
+Mercredi, il en a perdu 2 de plus, ce qui fait qu'il a maintenant 35 - 2 = 33 balles. La réponse est 33.
 
-Q: Olivia has $23. She bought five bagels for $3 each. How much money does she have left?
-A: She bought 5 bagels for $3 each. This means she spent 5
+Q : Olivia a 23 $ et a acheté cinq bagels pour 3 $ chacun. Combien d'argent lui reste-t-il ?
+R : Elle a acheté 5 bagels pour 3 $ chacun. Cela signifie qu'elle a dépensé 5
 
-Q: When I was 6 my sister was half my age. Now I’m 70 how old is my sister?
-A:
+Q : Quand j'avais 6 ans, ma sœur avait la moitié de mon âge. Aujourd'hui, j'ai 70 ans. Quel âge a ma sœur ?
+A :
 ```
 
 *Output 1:*
 ```
-When I was 6 my sister was half my age, so she was 3. Now I am 70, so she is 70 - 3 = 67. The answer is 67.
+Quand j'avais 6 ans, ma soeur avait la moitié de mon âge, donc elle avait 3 ans. 
+Maintenant j'ai 70 ans, donc elle a 70 - 3 = 67. La réponse est 67.
 ```
 
 *Output 2:*
 ```
-When the narrator was 6, his sister was half his age, which is 3. Now that the narrator is 70, his sister would be 70 - 3 = 67 years old. The answer is 67.
+Lorsque le narrateur avait 6 ans, sa soeur avait la moitié de son âge, soit 3. 
+Maintenant que le narrateur a 70 ans, sa soeur aurait 70 - 3 = 67 ans. La réponse est 67.
 ```
 
 *Output 3:*
 ```
-When I was 6 my sister was half my age, so she was 3. Now I am 70, so she is 70/2 = 35. The answer is 35.
+Quand j'avais 6 ans, ma sœur avait la moitié de mon âge, soit 3 ans. 
+Maintenant que j'ai 70 ans, elle a 70/2 = 35 ans. La réponse est 35.
 ```
 
-Computing for the final answer involves a few steps (check out the paper for the details) but for the sake of simplicity, we can see that there is already a majority answer emerging so that would essentially become the final answer. 
+Le calcul de la réponse finale comporte plusieurs étapes (voir l'article pour plus de détails), mais pour des raisons de simplicité, nous pouvons voir qu'une réponse majoritaire se dégage déjà et qu'elle devient donc la réponse finale. 
