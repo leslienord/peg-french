@@ -4,16 +4,16 @@ import { Callout, FileTree } from 'nextra-theme-docs'
 import {Screenshot} from 'components/screenshot'
 import PAL from '../../img/pal.png'
 
-[Gao et al., (2022)](https://arxiv.org/abs/2211.10435) presents a method that uses LLMs to read natural language problems and generate programs as the intermediate reasoning steps. Coined, program-aided language models (PAL), it differs from chain-of-thought prompting in that instead of using free-form text to obtain solution it offloads the solution step to a programmatic runtime such as a Python interpreter.
+[Gao et al., (2022)](https://arxiv.org/abs/2211.10435) présente une méthode qui utilise des LLMs pour lire des problèmes en langage naturel et générer des programmes en tant qu'étapes de raisonnement intermédiaires. Appelée modèles de langage assistés par programme (PAL), elle diffère de la chain-of-thought prompting en ce sens qu'au lieu d'utiliser un texte libre pour obtenir une solution, elle décharge l'étape de la solution sur un programme d'exécution tel qu'un interpréteur Python.
 
 <Screenshot src={PAL} alt="PAL" />
 Image Source: [Gao et al., (2022)](https://arxiv.org/abs/2211.10435)
 
-Let's look at an example using LangChain and OpenAI GPT-3. We are interested to develop a simple application that's able to interpret the question being asked and provide an answer by leveraging the Python interpreter. 
+Voyons un exemple utilisant LangChain et OpenAI GPT-3. Nous souhaitons développer une application simple capable d'interpréter la question posée et de fournir une réponse en s'appuyant sur l'interpréteur Python. 
 
-Specifically, we are interested to create a functionality that allows the use of the LLM to answer questions that require date understanding. We will provide the LLM a prompt that includes a few exemplars which are adopted from [here](https://github.com/reasoning-machines/pal/blob/main/pal/prompt/date_understanding_prompt.py).  
+Plus précisément, nous souhaitons créer une fonctionnalité qui permette d'utiliser le LLM pour répondre à des questions qui requièrent la compréhension des dates. Nous fournirons au LLM un prompt qui comprend quelques exemples qui sont adoptés à partir de [here](https://github.com/reasoning-machines/pal/blob/main/pal/prompt/date_understanding_prompt.py).  
 
-These are the imports we need:
+Ce sont les importations dont nous avons besoin :
 
 ```python
 import openai
@@ -24,7 +24,7 @@ from langchain.llms import OpenAI
 from dotenv import load_dotenv
 ```
 
-Let's first configure a few things:
+Commençons par configurer quelques éléments :
 
 ```python
 load_dotenv()
@@ -36,13 +36,13 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 ```
 
-Setup model instance:
+Mise en place d'une instance de modèle :
 
 ```python
 llm = OpenAI(model_name='text-davinci-003', temperature=0)
 ```
 
-Setup prompt + question:
+Installation de prompt + question :
 
 ```python
 question = "Today is 27 February 2023. I was born exactly 25 years ago. What is the date I was born in MM/DD/YYYY?"
@@ -102,4 +102,4 @@ exec(llm_out)
 print(born)
 ```
 
-This will output the following: `02/27/1998`
+Le résultat sera le suivant : `02/27/1998`
