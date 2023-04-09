@@ -1,44 +1,44 @@
-# Generating Data
-LLMs have strong capabilities to generate coherent text. Using effective prompt strategies can steer the model to produce better, consistent, and more factual responses. LLMs can also be especially useful for generating data which is really useful to run all sorts of experiments and evaluations. For example, we can use it to generate quick samples for a sentiment classifier like so:
+# Générer des données
+Les LLMs ont de fortes capacités à générer des textes cohérents. L'utilisation de stratégies de prompts efficaces peut amener le modèle à produire des réponses de meilleure qualité, plus cohérentes et plus factuelles. Les LLMs peuvent également être particulièrement utiles pour générer des données qui sont vraiment utiles pour effectuer toutes sortes d'expériences et d'évaluations. Par exemple, nous pouvons l'utiliser pour générer des échantillons rapides pour un classificateur de sentiments :
 
 *Prompt:*
 ```
-Produce 10 exemplars for sentiment analysis. Examples are categorized as either positive or negative. Produce 2 negative examples and 8 positive examples. Use this format for the examples:
-Q: <sentence>
-A: <sentiment>
+Produire 10 exemples pour l'analyse des sentiments. Les exemples sont classés comme positifs ou négatifs. Produisez 2 exemples négatifs et 8 exemples positifs. Utilisez ce format pour les exemples :
+Q: <phrase>
+R: <sentiment>
 ```
 
 *Output:*
 ```
-Q: I just got the best news ever!
-A: Positive
+Q: Je viens d'apprendre la meilleure nouvelle qui soit !
+R: Positif
 
-Q: We just got a raise at work!
-A: Positive
+Q: Nous venons d'être augmentés au travail !
+R: Positif
 
-Q: I'm so proud of what I accomplished today.
-A: Positive
+Q: Je suis très fière de ce que j'ai accompli aujourd'hui.
+R: Positif
 
-Q: I'm having the best day ever!
-A: Positive
+Q: Je passe la meilleure journée de ma vie !
+R: Positif
 
-Q: I'm really looking forward to the weekend.
-A: Positive
+Q: J'ai vraiment hâte d'être à ce week-end.
+R: Positif
 
-Q: I just got the best present ever!
-A: Positive
+Q: Je viens de recevoir le meilleur cadeau qui soit !
+R: Positif
 
-Q: I'm so happy right now.
-A: Positive
+Q: Je suis tellement heureuse en ce moment.
+R: Positif
 
-Q: I'm so blessed to have such an amazing family.
-A: Positive
+Q: J'ai la chance d'avoir une famille aussi formidable.
+R: Positif
 
-Q: The weather outside is so gloomy.
-A: Negative
+Q: Le temps à l'extérieur est si maussade.
+R: Negatif
 
-Q: I just got some terrible news.
-A: Negative
+Q: Je viens d'apprendre une terrible nouvelle.
+R: Negatif
 ```
 
-This is very useful. We actually use this example for a different test in another section of the guides.
+Cet exemple est très utile. En fait, nous utilisons cet exemple pour un test différent dans une autre section des guides.
