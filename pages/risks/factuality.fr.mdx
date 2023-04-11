@@ -1,34 +1,30 @@
-# Factuality
+# Factualité
 
-LLMs have a tendency to generate responses that sounds coherent and convincing but can sometimes be made up. Improving prompts can help improve the model to generate more accurate/factual responses and reduce the likelihood to generate inconsistent and made up responses. 
+Les LLMs ont tendance à générer des réponses qui semblent cohérentes et convaincantes mais qui peuvent parfois être inventées. L'amélioration des prompts peut aider le modèle à générer des réponses plus précises/factuelles et réduire la probabilité de générer des réponses incohérentes et inventées. 
 
-Some solutions might include:
-- provide ground truth (e.g., related article paragraph or Wikipedia entry) as part of context to reduce the likelihood of the model producing made up text.
-- configure the model to produce less diverse responses by decreasing the probability parameters and instructing it to admit (e.g., "I don't know") when it doesn't know the answer. 
-- provide in the prompt a combination of examples of questions and responses that it might know about and not know about
+Voici quelques solutions possibles
+- fournir une vérité de base (par exemple, un paragraphe d'article connexe ou une entrée Wikipédia) dans le cadre du contexte afin de réduire la probabilité que le modèle produise un texte inventé.
+- configurer le modèle pour qu'il produise des réponses moins variées en diminuant les paramètres de probabilité et en lui demandant d'admettre (par exemple, "Je ne sais pas") lorsqu'il ne connaît pas la réponse. 
+- fournir dans le prompt une combinaison d'exemples de questions et de réponses qu'il pourrait connaître et ne pas connaître.
 
-Let's look at a simple example:
+Prenons un exemple simple :
 
 *Prompt:*
 ```
-Q: What is an atom? 
-A: An atom is a tiny particle that makes up everything. 
-
-Q: Who is Alvan Muntz? 
-A: ? 
-
-Q: What is Kozar-09? 
-A: ? Q: 
-
-How many moons does Mars have? 
-A: Two, Phobos and Deimos. 
-
-Q: Who is Neto Beto Roberto? 
+Q : Qu'est-ce qu'un atome ? 
+R : Un atome est une minuscule particule qui compose tout. 
+Q : Qui est Alvan Muntz ? 
+R : ? 
+Q : Qu'est-ce que le Kozar-09 ? 
+R : ? 
+Q : Combien de lunes Mars possède-t-elle ? 
+R : Deux, Phobos et Deimos. 
+Q : Qui est Neto Beto Roberto ?
 ```
 
 *Output:*
 ```
-A: ?
+R: ?
 ```
 
-I made up the name "Neto Beto Roberto" so the model is correct in this instance. Try to change the question a bit and see if you can get it to work. There are different ways you can improve this further based on all that you have learned so far.
+J'ai inventé le nom "Neto Beto Roberto", le modèle est donc correct dans ce cas. Essayez de modifier légèrement la question et voyez si vous pouvez la faire fonctionner. Il y a plusieurs façons d'améliorer ce modèle en fonction de tout ce que vous avez appris jusqu'à présent.
