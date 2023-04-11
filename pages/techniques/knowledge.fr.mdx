@@ -1,4 +1,4 @@
-# Generated Knowledge Prompting
+# Prompting par Connaissances Générées
 
 import {Screenshot} from 'components/screenshot'
 import GENKNOW from '../../img/gen-knowledge.png'
@@ -7,86 +7,86 @@ import GENKNOW from '../../img/gen-knowledge.png'
 
 Image Source: [Liu et al. 2022](https://arxiv.org/pdf/2110.08387.pdf)
 
-LLMs continue to be improved and one popular technique includes the ability to incorporate knowledge or information to help the model make more accurate predictions. 
+Les LLMs continuent d'être améliorés et l'une des techniques les plus répandues consiste à incorporer des connaissances ou des informations pour aider le modèle à faire des prédictions plus précises. 
 
-Using a similar idea, can the model also be used to generate knowledge before making a prediction? That's what is attempted in the paper by [Liu et al. 2022](https://arxiv.org/pdf/2110.08387.pdf) -- generate knowledge to be used as part of the prompt. In particular, how helpful is this for tasks such as commonsense reasoning?
+En utilisant une idée similaire, le modèle peut-il également être utilisé pour générer des connaissances avant de faire une prédiction ? C'est ce que tente de faire l'article de [Liu et al. 2022](https://arxiv.org/pdf/2110.08387.pdf) -- générer des connaissances à utiliser dans le cadre du prompt. En particulier, dans quelle mesure cela est-il utile pour des tâches telles que le raisonnement par le bon sens ?
 
-Let's try a simple prompt:
+Essayons un simple prompt :
 
 *Prompt:*
 ```
-Part of golf is trying to get a higher point total than others. Yes or No?
+Un des buts du golf consiste à essayer d'obtenir un total de points plus élevé que les autres. Oui ou non ?
 ```
 
 *Output:*
 ```
-Yes.
+Oui.
 ```
 
-This type of mistake reveals the limitations of LLMs to perform tasks that require more knowledge about the world. How do we improve this with knowledge generation?
+Ce type d'erreur révèle les limites des LLMs dans l'exécution de tâches qui requièrent davantage de connaissances sur le monde. Comment améliorer cette situation grâce à la génération de connaissances ?
 
-First, we generate a few "knowledges":
+Tout d'abord, nous générons quelques "connaissances" :
 
 *Prompt:*
 ```
-Input: Greece is larger than mexico.
-Knowledge: Greece is approximately 131,957 sq km, while Mexico is approximately 1,964,375 sq km, making Mexico 1,389% larger than Greece.
+Input : La Grèce est plus grande que le Mexique.
+Connaissance : La Grèce a une superficie d'environ 131 957 km², tandis que le Mexique a une superficie d'environ 1 964 375 km², ce qui fait que le Mexique est 1 389 % plus grand que la Grèce.
 
-Input: Glasses always fog up.
-Knowledge: Condensation occurs on eyeglass lenses when water vapor from your sweat, breath, and ambient humidity lands on a cold surface, cools, and then changes into tiny drops of liquid, forming a film that you see as fog. Your lenses will be relatively cool compared to your breath, especially when the outside air is cold.
+Input : Les lunettes s'embuent toujours.
+Connaissances : La condensation se produit sur les verres de lunettes lorsque la vapeur d'eau provenant de votre sueur, de votre respiration et de l'humidité ambiante se dépose sur une surface froide, se refroidit et se transforme en minuscules gouttes de liquide, formant un film que vous voyez comme de la buée. Vos lentilles seront relativement froides par rapport à votre respiration, en particulier lorsque l'air extérieur est froid.
 
-Input: A fish is capable of thinking.
-Knowledge: Fish are more intelligent than they appear. In many areas, such as memory, their cognitive powers match or exceed those of ’higher’ vertebrates including non-human primates. Fish’s long-term memories help them keep track of complex social relationships.
+Input : Un poisson est capable de penser.
+Connaissance : Les poissons sont plus intelligents qu'il n'y paraît. Dans de nombreux domaines, comme la mémoire, leurs capacités cognitives égalent ou dépassent celles des vertébrés "supérieurs", y compris les primates non humains. La mémoire à long terme des poissons leur permet de suivre des relations sociales complexes.
 
-Input: A common effect of smoking lots of cigarettes in one’s lifetime is a higher than normal chance of getting lung cancer.
-Knowledge: Those who consistently averaged less than one cigarette per day over their lifetime had nine times the risk of dying from lung cancer than never smokers. Among people who smoked between one and 10 cigarettes per day, the risk of dying from lung cancer was nearly 12 times higher than that of never smokers.
+Input : Le fait de fumer beaucoup de cigarettes au cours de sa vie a pour conséquence commune un risque plus élevé que la normale d'être atteint d'un cancer du poumon.
+Connaissances : Les personnes qui ont fumé en moyenne moins d'une cigarette par jour au cours de leur vie ont neuf fois plus de risques de mourir d'un cancer du poumon que les personnes qui n'ont jamais fumé. Parmi les personnes qui fumaient entre une et dix cigarettes par jour, le risque de mourir d'un cancer du poumon était près de 12 fois supérieur à celui des personnes n'ayant jamais fumé.
 
-Input: A rock is the same size as a pebble.
-Knowledge: A pebble is a clast of rock with a particle size of 4 to 64 millimetres based on the Udden-Wentworth scale of sedimentology. Pebbles are generally considered larger than granules (2 to 4 millimetres diameter) and smaller than cobbles (64 to 256 millimetres diameter).
+Input : Un rocher est de la même taille qu'un caillou.
+Connaissances : Un caillou est un amas de roches dont la taille des particules est comprise entre 4 et 64 millimètres, selon l'échelle sédimentologique d'Udden-Wentworth. Les galets sont généralement considérés comme plus grands que les granules (2 à 4 millimètres de diamètre) et plus petits que les cailloux (64 à 256 millimètres de diamètre).
 
-Input: Part of golf is trying to get a higher point total than others.
-Knowledge:
+Input : Une partie du golf consiste à essayer d'obtenir un total de points plus élevé que les autres.
+Connaissances :
 ```
 
-*Knowledge 1:*
+*Connaissances 1:*
 ```
-The objective of golf is to play a set of holes in the least number of strokes. A round of golf typically consists of 18 holes. Each hole is played once in the round on a standard golf course. Each stroke is counted as one point, and the total number of strokes is used to determine the winner of the game.
-```
-
-*Knowledge 2:*
-```
-Golf is a precision club-and-ball sport in which competing players (or golfers) use many types of clubs to hit balls into a series of holes on a course using the fewest number of strokes. The goal is to complete the course with the lowest score, which is calculated by adding up the total number of strokes taken on each hole. The player with the lowest score wins the game.
+L'objectif du golf est de jouer une série de trous en un minimum de coups. Un tour de golf se compose généralement de 18 trous. Chaque trou est joué une fois dans le tour sur un parcours de golf standard. Chaque coup compte pour un point et le nombre total de coups est utilisé pour déterminer le vainqueur de la partie.
 ```
 
-We are using the prompt provided in the paper by [Liu et al. 2022](https://arxiv.org/pdf/2110.08387.pdf).
+*Connaissances 2:*
+```
+Le golf est un sport de précision dans lequel les joueurs (ou golfeurs) en compétition utilisent plusieurs types de clubs pour frapper des balles dans une série de trous sur un parcours en utilisant le moins de coups possible. L'objectif est de terminer le parcours avec le score le plus bas, calculé en additionnant le nombre total de coups effectués sur chaque trou. Le joueur qui obtient le score le plus bas gagne la partie.
+```
 
-The next step is to integrate the knowledge and get a prediction. I reformatted the question into QA format to guide the answer format.
+Nous utilisons le prompt fourni dans le document par [Liu et al. 2022](https://arxiv.org/pdf/2110.08387.pdf).
+
+L'étape suivante consiste à intégrer les connaissances et à obtenir une prédiction. J'ai reformaté la question en format QR pour guider le format de la réponse.
 
 *Prompt:*
 ```
-Question: Part of golf is trying to get a higher point total than others. Yes or No?
+Question: Un des buts du golf consiste à essayer d'obtenir un total de points plus élevé que les autres. Oui ou non ?
 
-Knowledge: The objective of golf is to play a set of holes in the least number of strokes. A round of golf typically consists of 18 holes. Each hole is played once in the round on a standard golf course. Each stroke is counted as one point, and the total number of strokes is used to determine the winner of the game.
+Connaissances : L'objectif du golf est de jouer une série de trous en un minimum de coups. Un parcours de golf se compose généralement de 18 trous. Chaque trou est joué une fois sur un parcours de golf standard. Chaque coup est compté comme un point et le nombre total de coups est utilisé pour déterminer le vainqueur de la partie.
 
-Explain and Answer: 
+Expliquez et répondez : 
 ```
 
-*Answer 1 (confidence very high):*
+*Réponse 1 (confiance très élevée) :*
 ```
-No, the objective of golf is not to get a higher point total than others. Rather, the objective is to play a set of holes in the least number of strokes. The total number of strokes is used to determine the winner of the game, not the total number of points.
-```
-
-```
-Question: Part of golf is trying to get a higher point total than others. Yes or No?
-
-Knowledge: Golf is a precision club-and-ball sport in which competing players (or golfers) use many types of clubs to hit balls into a series of holes on a course using the fewest number of strokes. The goal is to complete the course with the lowest score, which is calculated by adding up the total number of strokes taken on each hole. The player with the lowest score wins the game.
-
-Explain and Answer:
+Non, l'objectif du golf n'est pas d'obtenir un total de points plus élevé que les autres. L'objectif est plutôt de jouer une série de trous en un minimum de coups. C'est le nombre total de coups qui détermine le vainqueur de la partie, et non le nombre total de points.
 ```
 
-*Answer 2 (confidence is a lot lower):*
 ```
-Yes, part of golf is trying to get a higher point total than others. Each player tries to complete the course with the lowest score, which is calculated by adding up the total number of strokes taken on each hole. The player with the lowest score wins the game.
+Question: Un des buts du golf consiste à essayer d'obtenir un total de points plus élevé que les autres. Oui ou non ?
+
+Connaissances : Le golf est un sport de précision dans lequel les joueurs (ou golfeurs) utilisent plusieurs types de clubs pour frapper des balles dans une série de trous sur un parcours en utilisant le moins de coups possible. L'objectif est de terminer le parcours avec le score le plus bas, calculé en additionnant le nombre total de coups effectués sur chaque trou. Le joueur qui obtient le score le plus bas gagne la partie.
+
+Expliquez et répondez :
 ```
 
-Some really interesting things happened with this example. In the first answer, the model was very confident but in the second not so much. I simplify the process for demonstration purposes but there are a few more details to consider when arriving at the final answer. Check out the paper for more.
+*Réponse 2 (la confiance est beaucoup plus faible) :*
+```
+Oui, une partie du golf consiste à essayer d'obtenir un total de points plus élevé que les autres. Chaque joueur essaie de terminer le parcours avec le score le plus bas, qui est calculé en additionnant le nombre total de coups pris sur chaque trou. Le joueur qui obtient le score le plus bas gagne la partie.
+```
+
+Il s'est passé des choses très intéressantes dans cet exemple. Dans la première réponse, le modèle était très confiant, mais dans la seconde, il l'était moins. Je simplifie le processus à des fins de démonstration, mais il y a quelques détails supplémentaires à prendre en compte pour parvenir à la réponse finale. Consultez l'article pour en savoir plus.
