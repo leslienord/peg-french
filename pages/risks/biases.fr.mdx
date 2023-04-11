@@ -1,98 +1,98 @@
-# Biases
+# Biais
 
-LLMs can produce problematic generations that can potentially be harmful and display biases that could deteriorate the performance of the model on downstream tasks. Some of these can be mitigated through effective prompting strategies but might require more advanced solutions like moderation and filtering. 
+Les LLMs peuvent produire des générations problématiques qui peuvent potentiellement être nuisibles et afficher des biais qui pourraient détériorer la performance du modèle sur des tâches en aval. Certains de ces biais peuvent être atténués par des stratégies de prompting efficaces, mais peuvent nécessiter des solutions plus avancées telles que la modération et le filtrage. 
 
-### Distribution of Exemplars
-When performing few-shot learning, does the distribution of the exemplars affect the performance of the model or bias the model in some way? We can perform a simple test here.
+### Distribution des exemples
+Lors de l'apprentissage du few-shot, la distribution des exemplaires affecte-t-elle la performance du modèle ou biaise-t-elle le modèle d'une manière ou d'une autre ? Nous pouvons effectuer un test simple ici.
 
 *Prompt:*
 ```
-Q: I just got the best news ever!
-A: Positive
+Q : Je viens d'apprendre la meilleure nouvelle qui soit !
+R : Positive
 
-Q: We just got a raise at work!
-A: Positive
+Q : Nous venons d'être augmentés au travail !
+R : Positif
 
-Q: I'm so proud of what I accomplished today.
-A: Positive
+Q : Je suis tellement fier de ce que j'ai accompli aujourd'hui.
+R : Positif
 
-Q: I'm having the best day ever!
-A: Positive
+Q : Je passe la meilleure journée de ma vie !
+R : Positif
 
-Q: I'm really looking forward to the weekend.
-A: Positive
+Q : J'ai vraiment hâte d'être au week-end.
+R : Positif
 
-Q: I just got the best present ever!
-A: Positive
+Q : Je viens de recevoir le plus beau des cadeaux !
+R : Positif
 
-Q: I'm so happy right now.
-A: Positive
+Q : Je suis tellement heureux en ce moment.
+R : Positif
 
-Q: I'm so blessed to have such an amazing family.
-A: Positive
+Q : J'ai la chance d'avoir une famille extraordinaire.
+R : Positif
 
-Q: The weather outside is so gloomy.
-A: Negative
+Q : Le temps est si maussade à l'extérieur.
+R : Négatif
 
-Q: I just got some terrible news.
-A: Negative
+Q : Je viens d'apprendre une terrible nouvelle.
+R : Négative
 
-Q: That left a sour taste.
-A:
+Q : Cela m'a laissé un goût amer.
+R :
 ```
 
 *Output:*
 ```
-Negative
+Négatif
 ```
 
-In the example above, it seems that the distribution of exemplars doesn't bias the model. This is good. Let's try another example with a harder text to classify and let's see how the model does:
+Dans l'exemple ci-dessus, il semble que la distribution des exemplaires ne biaise pas le modèle. C'est une bonne chose. Essayons un autre exemple avec un texte plus difficile à classer et voyons comment le modèle se comporte :
 
 *Prompt:*
 ```
-Q: The food here is delicious!
-A: Positive 
+Q : La nourriture est délicieuse !
+R : Positif 
 
-Q: I'm so tired of this coursework.
-A: Negative
+Q : J'en ai marre de ce travail.
+R : Négatif
 
-Q: I can't believe I failed the exam.
-A: Negative
+Q : Je n'arrive pas à croire que j'ai échoué à l'examen.
+R : Négatif
 
-Q: I had a great day today!
-A: Positive 
+Q : J'ai passé une excellente journée aujourd'hui !
+R : Positif 
 
-Q: I hate this job.
-A: Negative
+Q : Je déteste ce travail.
+R : Négatif
 
-Q: The service here is terrible.
-A: Negative
+Q : Le service ici est terrible.
+R : Négatif
 
-Q: I'm so frustrated with my life.
-A: Negative
+Q : Je suis tellement frustré par ma vie.
+R : Négatif
 
-Q: I never get a break.
-A: Negative
+Q : Je n'ai jamais de répit.
+R : Négatif
 
-Q: This meal tastes awful.
-A: Negative
+Q : Ce repas a un goût affreux.
+R : Négatif
 
-Q: I can't stand my boss.
-A: Negative
+Q : Je ne supporte pas mon patron.
+R : Négatif
 
-Q: I feel something.
-A:
+Q : Je ressens quelque chose.
+R :
 ```
 
 *Output:*
 ```
-Negative
+Négatif
 ```
 
-While that last sentence is somewhat subjective, I flipped the distribution and instead used 8 positive examples and 2 negative examples and then tried the same exact sentence again. Guess what the model responded? It responded "Positive". The model might have a lot of knowledge about sentiment classification so it will be hard to get it to display bias for this problem. The advice here is to avoid skewing the distribution and instead provide a more balanced number of examples for each label. For harder tasks that the model doesn't have too much knowledge of, it will likely struggle more. 
+Bien que cette dernière phrase soit quelque peu subjective, j'ai inversé la distribution et j'ai utilisé 8 exemples positifs et 2 exemples négatifs, puis j'ai réessayé exactement la même phrase. Devinez la réponse du modèle ? Il a répondu "Positif". Le modèle peut avoir beaucoup de connaissances sur la classification des sentiments, il sera donc difficile de lui faire afficher un biais pour ce problème. Le conseil ici est d'éviter de biaiser la distribution et de fournir un nombre plus équilibré d'exemples pour chaque étiquette. Pour les tâches plus difficiles que le modèle ne connaît pas très bien, il est probable qu'il aura plus de mal. 
 
 
-### Order of Exemplars
-When performing few-shot learning, does the order affect the performance of the model or bias the model in some way?
+### Ordre des exemples
+Lors de l'apprentissage du few-shot, l'ordre affecte-t-il la performance du modèle ou biaise-t-il le modèle d'une manière ou d'une autre ?
 
-You can try the above exemplars and see if you can get the model to be biased towards a label by changing the order. The advice is to randomly order exemplars. For example, avoid having all the positive examples first and then the negative examples last. This issue is further amplified if the distribution of labels is skewed. Always ensure to experiment a lot to reduce this type of bias.
+Vous pouvez essayer les exemples ci-dessus et voir si vous pouvez faire en sorte que le modèle soit biaisé en faveur d'une étiquette en changeant l'ordre. Il est conseillé d'ordonner les exemples de manière aléatoire. Par exemple, évitez de placer tous les exemples positifs en premier et les exemples négatifs en dernier. Ce problème est encore amplifié si la distribution des étiquettes est asymétrique. Veillez toujours à faire de nombreuses expériences pour réduire ce type de biais.
