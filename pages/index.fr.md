@@ -1,4 +1,4 @@
-# Guide d'ingénierie des prompts
+# Guide du prompt engineering
 
 L'ingénierie des prompts est une discipline relativement nouvelle qui permet de développer et d'optimiser les prompts afin d'utiliser efficacement les modèles de langage (LMs) pour une grande variété d'applications et de sujets de recherche. Les compétences en ingénierie des prompts permettent de mieux comprendre les capacités et les limites des grands modèles de langage (LLMs).
 
