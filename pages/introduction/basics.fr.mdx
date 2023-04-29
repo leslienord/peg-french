@@ -2,7 +2,7 @@
 
 ## Prompts basiques
 
-Vous pouvez obtenir de nombreux résultats avec de simples prompts, mais la qualité des résultats dépend de la quantité d'informations que vous fournissez et de la qualité de leur rédaction. Un prompt peut contenir des informations telles que l'*instruction* ou la *question* que vous transmettez au modèle, ainsi que d'autres détails tels que le *contexte*, les *inputs* [TO DO] ou les *exemples*. Vous pouvez utiliser ces éléments pour mieux instruire le modèle [A REVOIR] et obtenir de meilleurs résultats.
+Vous pouvez obtenir de nombreux résultats avec de simples prompts, mais la qualité des résultats dépend de la quantité d'informations que vous fournissez et de la qualité de leur rédaction. Un prompt peut contenir des informations telles que l'*instruction* ou la *question* que vous transmettez au modèle, ainsi que d'autres détails tels que le *contexte*, les *inputs* [TO DO] ou les *exemples*. Vous pouvez utiliser ces éléments pour mieux orienter le modèle et obtenir de meilleurs résultats.
 
 Commençons par un exemple de base d'un simple prompt :
 
@@ -20,7 +20,7 @@ Le ciel est bleu par temps clair. Par temps nuageux, le ciel peut être gris ou 
 
 Comme vous pouvez le constater, le modèle de langage produit une séquence de chaînes de caractères qui ont un sens dans le contexte "Le ciel est". Le résultat peut être inattendu ou éloigné de la tâche que nous voulons accomplir. 
 
-Cet exemple de base souligne également la nécessité de fournir davantage de contexte ou d'instructions sur ce que nous voulons accomplir.
+Cet exemple de base souligne également la nécessité de fournir d'avantage de contexte ou d'instructions sur ce que nous voulons accomplir.
 
 Essayons de l'améliorer un peu :
 
@@ -37,7 +37,7 @@ Le ciel est
 si beau aujourd'hui.
 ```
 
-Est-ce mieux ? Nous avons demandé au modèle de compléter la phrase, le résultat semble donc bien meilleur puisqu'il suit exactement ce que nous lui avons demandé de faire ("compléter la phrase"). Cette approche, qui consiste à concevoir des prompts optimaux pour demander au modèle d'effectuer une tâche, est appelée **ingénierie des prompts**. 
+Est-ce mieux ? Nous avons demandé au modèle de compléter la phrase, le résultat semble donc bien meilleur puisqu'il suit exactement ce que nous lui avons demandé de faire ("compléter la phrase"). Cette approche, qui consiste à concevoir des prompts optimaux pour demander au modèle d'effectuer une tâche est appelée **ingénierie des prompts**. 
 
 L'exemple ci-dessus est une illustration de base de ce qui est possible avec les LLMs aujourd'hui. Les LLMs d'aujourd'hui sont capables d'effectuer toutes sortes de tâches avancées allant du résumé de texte au raisonnement mathématique en passant par la génération de code.
 
@@ -55,7 +55,7 @@ ou
 <Instruction>
 ```
  
-Ceci peut être formaté dans un format Question-Réponse (QR), qui est standard dans de nombreux ensembles de données QR, comme suit :
+Ceci peut-être formulé dans un format Question-Réponse (QR), qui est standard dans de nombreux ensembles de données QR, comme suit :
 
 ```
 Q : <Question> ?
